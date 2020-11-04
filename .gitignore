@@ -1,0 +1,10 @@
+.idea
+.Rhistory
+.Rproj.user
+.RData
+Icon?
+docs
+*.Rproj
+~*
+data/data.index.xlsx
+bash3.sh
