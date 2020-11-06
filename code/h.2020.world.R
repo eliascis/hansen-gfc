@@ -22,6 +22,9 @@ dlist<-c(
 if (nowrun==1){
 
   t<-lapply(dlist, function(dset){
+      
+      # dset = "treecover2000"  
+    
       ###hansen version
       # url<-"https://storage.googleapis.com/earthenginepartners-hansen/GFC-2016-v1.4/"
       # url<-"https://storage.googleapis.com/earthenginepartners-hansen/GFC-2017-v1.5/"
@@ -81,17 +84,19 @@ if (nowrun==1){
         infile<-gsub('/', '\\\\', infile)
         outfile<-gsub('/', '\\\\', outfile)
       }
-      gdal_translate(outfile, 
-                     destfile,
-                     co = c("COMPRESS=LZW", "NUM_THREADS=15"), #num_threads for parallelization of LZW compression
-                     ot = "Byte")
+      if (file.exists(destfile)==F){
+        gdal_translate(outfile, 
+                       destfile,
+                       co = c("COMPRESS=LZW", "NUM_THREADS=15"), #num_threads for parallelization of LZW compression
+                       ot = "Byte")
+      }
     
       ##delete temp files
       file.remove(
         c(
           paste0(file.path("data","tmp",paste0("h.",flist))),
           paste0(file.path("data","tmp",paste0("h.2018.",dset,".index.txt"))),
-          paste0(file.path("data","tmp",paste0("h.2018.",dset,".raster.vrt"))),
+          paste0(file.path("data","tmp",paste0("h.2018.",dset,".raster.vrt")))
         )
       )
     }
