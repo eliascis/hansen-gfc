@@ -3,9 +3,12 @@ library(ecRutils)
 library(rgdal)
 library(raster)
 library(dplyr)
+library(gdalUtils)
 
 nowrun=0
 nowrun.download=0
+
+databasefolder="data/tmp"
 
 ###################
 ### forest loss ###
@@ -14,24 +17,14 @@ nowrun.download=0
 if (nowrun==1){
   
   ###hansen version
-  url<-"https://storage.googleapis.com/earthenginepartners-hansen/GFC-2016-v1.4/"
-  url<-"https://storage.googleapis.com/earthenginepartners-hansen/GFC-2017-v1.5/"
+  # url<-"https://storage.googleapis.com/earthenginepartners-hansen/GFC-2016-v1.4/"
+  # url<-"https://storage.googleapis.com/earthenginepartners-hansen/GFC-2017-v1.5/"
   url<-"https://storage.googleapis.com/earthenginepartners-hansen/GFC-2018-v1.6/"
 
   ###dimensions
-  #brazil: 
-  north<-c("10N","00N","10S","20S","30S")
-  west<-c("080W","070W","060W","050W","040W")
-  x<-expand.grid(north=north,west=west)
-  x<-paste0(x[,1],"_",x[,2])
-  extra<-"00N_080W"
-  dim<-c(x,extra)
-  #indonesia: 
-  north<-c("10N","00N","10S")
-  west<-c(
-    paste0("0",c(90:90),"E"),
-    paste0("",seq(100,140,10),"E")
-  )
+  #global oil palm suitable area (latitudes up to +/- 30 degree from equator, all longitudes except for large parts of the pacific)
+  north<-c("30N", "20N", "10N", "00N", "10S","20S")
+  west<-c(sprintf("%02.0f0W", 12:1), sprintf("%02.0f0E", 0:17))
   x<-expand.grid(north=north,west=west)
   x<-paste0(x[,1],"_",x[,2])
   dim<-c(x)
@@ -41,20 +34,14 @@ if (nowrun==1){
     "treecover2000",
     # "loss",
     # "gain",
-    "lossyear"#,
-    # "datamask"#,
+    "lossyear",
+    "datamask" #,
     # "first"#,
     # "last"
   )
 
   ###set round
   dset<-"lossyear"
-
-  ## download complete filelist
-  # url<-paste0(url2013,paste0(dset,".txt"))
-  # download.file(url,file.path(datafolder,"tmp",paste0("h.",dset,".txt")))
-  # l<-readLines(file.path(datafolder,"tmp",paste0("h.",dset,".txt")))
-  # l[1]
 
   ##file list
   pre<-paste0("Hansen_GFC-2018-v1.6_",dset)
@@ -67,28 +54,51 @@ if (nowrun==1){
       # x<- flist[[1]]
       print(x)
       if (file.exists(file.path(databasefolder,"deforestation","hansen",paste0("h.",x)))==F){
-        download.file(paste0(url,x),file.path(databasefolder,"deforestation","hansen",paste0("h.",x)))
+        download.file(paste0(url,x),file.path(databasefolder,"deforestation","hansen",paste0("h.",x)), mode="wb")
       }
     }
   )
+  
+  ##create file index for virtual raster
+  input_files=paste0(
+    list.files(file.path(c(here()), databasefolder,"deforestation","hansen"),paste0("h.Hansen"),full.names=T))
+  #modify paths for use with windows
+  if(Sys.info()["sysname"] == "Windows") {
+    input_files<-gsub('/', '\\\\', input_files)
+  }
+  #save file paths to .txt
+  index<-file(paste0(file.path(databasefolder, "deforestation", "hansen"),"/vrt_index.txt"))
+  writeLines(input_files, con=index)
+  
+  ##create virtual raster
+  infile<-file.path(c(here()), databasefolder, "deforestation", "hansen", "vrt_index.txt")
+  outfile<-paste0(file.path(c(here()), databasefolder, "deforestation", "hansen"), "/hansen_virtual_raster.vrt")
+  #modify paths for use with windows
+  if(Sys.info()["sysname"] == "Windows") {
+    infile<-gsub('/', '\\\\', infile)
+    outfile<-gsub('/', '\\\\', outfile)
+  }
+  gdalbuildvrt(output.vrt = c(outfile), 
+               input_file_list = c(infile), 
+               resolution = "average", 
+               r = "nearest")
+  
+  #translate virtual raster to compressed TIFF
+  destfile<-paste0(file.path(c(here()), databasefolder, "deforestation", "hansen"), "/hansen_merged.tif")
+  #modify paths for use with windows
+  if(Sys.info()["sysname"] == "Windows") {
+    infile<-gsub('/', '\\\\', infile)
+    outfile<-gsub('/', '\\\\', outfile)
+  }
+  gdal_translate(outfile, 
+                 destfile,
+                 co = c("COMPRESS=LZW", "NUM_THREADS=12"),
+                 ot = "Byte")
+  
 
-  #merge raster tiles with gdal
-  cmd<-f.gdal.merge(
-    o=paste0(file.path(databasefolder,"deforestation","hansen",paste0("h.2018.",dset,".merge.tif"))),
-    # ot="Int16",
-    # input_files=
-    #   paste(
-    #     paste0(file.path(datafolder,"tmp"),"/","h.",flist),
-    #     collapse=" "
-    #   )
-    input_files=paste(
-        list.files(file.path(databasefolder,"deforestation","hansen"),paste0("h.Hansen"),full.names=T),
-      collapse=" "
-    ),
-    add.something.at.the.end="--config CHECK_DISK_FREE_SPACE NO"
-  )
-  writeClipboard(cmd)
-
+  
+  #### Work in Progress from here on ###
+  
   ##crop raster to spatial extent of country
   #read
   # m<-readOGR(file.path(databasefolder,"admin_borders/brazil/municip2017"),"RG2017_regioesgeograficas2017")
