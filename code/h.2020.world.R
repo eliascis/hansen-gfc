@@ -69,7 +69,7 @@ if (nowrun==1){
                    r = "nearest")
       
       ##translate virtual raster to compressed TIFF and store in output folder
-      destfile<-paste0(file.path(c(here()),"data","store",paste0("h.2018.",dset,".world.tif")))
+      destfile<-paste0(file.path(c(here()),"data","store",paste0("h.2018.world.",dset,".tif")))
       #modify paths for use with windows
       if(Sys.info()["sysname"] == "Windows") {
         infile<-gsub('/', '\\\\', infile)
@@ -154,7 +154,7 @@ if (nowrun==1){
                r = "nearest")
   
   ##translate virtual raster to compressed TIFF and store in output folder
-  destfile<-paste0(file.path(c(here()),"data","store",paste0("h.2018.",dset,".world.tif")))
+  destfile<-paste0(file.path(c(here()),"data","store",paste0("h.2018.world.",dset,".tif")))
   #modify paths for use with windows
   if(Sys.info()["sysname"] == "Windows") {
     infile<-gsub('/', '\\\\', infile)
@@ -239,7 +239,7 @@ if (nowrun==1){
                  r = "nearest")
     
     ##translate virtual raster to compressed TIFF and store in output folder
-    destfile<-paste0(file.path(c(here()),"data","store",paste0("h.2018.",dset,".world.tif")))
+    destfile<-paste0(file.path(c(here()),"data","store",paste0("h.2018.world.",dset,".tif")))
     #modify paths for use with windows
     if(Sys.info()["sysname"] == "Windows") {
       infile<-gsub('/', '\\\\', infile)
