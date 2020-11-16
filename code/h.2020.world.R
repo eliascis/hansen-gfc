@@ -6,6 +6,28 @@ library(dplyr)
 library(gdalUtils)
 
 
+### set AOI dimension
+
+#indonesia: 
+aoi<-"indonesia"
+north<-c("10N","00N","10S")
+west<-c(
+  paste0("0",c(90:90),"E"),
+  paste0("",seq(100,140,10),"E")
+)
+x<-expand.grid(north=north,west=west)
+x<-paste0(x[,1],"_",x[,2])
+dim<-c(x)
+
+#global oil palm suitable area (latitudes up to +/- 30 degree from equator, all longitudes except for large parts of the pacific)
+aoi<-"world"
+north<-c("30N", "20N", "10N", "00N", "10S","20S")
+west<-c(sprintf("%02.0f0W", 12:1), sprintf("%02.0f0E", 0:17))
+x<-expand.grid(north=north,west=west)
+x<-paste0(x[,1],"_",x[,2])
+dim<-c(x)
+
+
 ############################
 ### download forest loss ###
 ############################
@@ -20,14 +42,6 @@ if (nowrun==1){
       # url<-"https://storage.googleapis.com/earthenginepartners-hansen/GFC-2016-v1.4/"
       # url<-"https://storage.googleapis.com/earthenginepartners-hansen/GFC-2017-v1.5/"
       url<-"https://storage.googleapis.com/earthenginepartners-hansen/GFC-2018-v1.6/"
-    
-      ###dimensions
-      #global oil palm suitable area (latitudes up to +/- 30 degree from equator, all longitudes except for large parts of the pacific)
-      north<-c("30N", "20N", "10N", "00N", "10S","20S")
-      west<-c(sprintf("%02.0f0W", 12:1), sprintf("%02.0f0E", 0:17))
-      x<-expand.grid(north=north,west=west)
-      x<-paste0(x[,1],"_",x[,2])
-      dim<-c(x)
     
       ##file list
       pre<-paste0("Hansen_GFC-2018-v1.6_",dset)
@@ -69,7 +83,7 @@ if (nowrun==1){
                    r = "nearest")
       
       ##translate virtual raster to compressed TIFF and store in output folder
-      destfile<-paste0(file.path(c(here()),"data","store",paste0("h.2018.world.",dset,".tif")))
+      destfile<-paste0(file.path(c(here()),"data","store",paste0("h.2018.",aoi,".",dset,".tif")))
       #modify paths for use with windows
       if(Sys.info()["sysname"] == "Windows") {
         infile<-gsub('/', '\\\\', infile)
@@ -105,14 +119,6 @@ if (nowrun==1){
   # url<-"https://storage.googleapis.com/earthenginepartners-hansen/GFC-2016-v1.4/"
   # url<-"https://storage.googleapis.com/earthenginepartners-hansen/GFC-2017-v1.5/"
   url<-"https://storage.googleapis.com/earthenginepartners-hansen/GFC-2018-v1.6/"
-  
-  ###dimensions
-  #global oil palm suitable area (latitudes up to +/- 30 degree from equator, all longitudes except for large parts of the pacific)
-  north<-c("30N", "20N", "10N", "00N", "10S","20S")
-  west<-c(sprintf("%02.0f0W", 12:1), sprintf("%02.0f0E", 0:17))
-  x<-expand.grid(north=north,west=west)
-  x<-paste0(x[,1],"_",x[,2])
-  dim<-c(x)
   
   ##file list
   pre<-paste0("Hansen_GFC-2018-v1.6_",dset)
@@ -154,7 +160,7 @@ if (nowrun==1){
                r = "nearest")
   
   ##translate virtual raster to compressed TIFF and store in output folder
-  destfile<-paste0(file.path(c(here()),"data","store",paste0("h.2018.world.",dset,".tif")))
+  destfile<-paste0(file.path(c(here()),"data","store",paste0("h.2018.",aoi,".",dset,".tif")))
   #modify paths for use with windows
   if(Sys.info()["sysname"] == "Windows") {
     infile<-gsub('/', '\\\\', infile)
@@ -190,14 +196,6 @@ if (nowrun==1){
     # url<-"https://storage.googleapis.com/earthenginepartners-hansen/GFC-2016-v1.4/"
     # url<-"https://storage.googleapis.com/earthenginepartners-hansen/GFC-2017-v1.5/"
     url<-"https://storage.googleapis.com/earthenginepartners-hansen/GFC-2018-v1.6/"
-    
-    ###dimensions
-    #global oil palm suitable area (latitudes up to +/- 30 degree from equator, all longitudes except for large parts of the pacific)
-    north<-c("30N", "20N", "10N", "00N", "10S","20S")
-    west<-c(sprintf("%02.0f0W", 12:1), sprintf("%02.0f0E", 0:17))
-    x<-expand.grid(north=north,west=west)
-    x<-paste0(x[,1],"_",x[,2])
-    dim<-c(x)
     
     ##file list
     pre<-paste0("Hansen_GFC-2018-v1.6_",dset)
@@ -239,7 +237,7 @@ if (nowrun==1){
                  r = "nearest")
     
     ##translate virtual raster to compressed TIFF and store in output folder
-    destfile<-paste0(file.path(c(here()),"data","store",paste0("h.2018.world.",dset,".tif")))
+    destfile<-paste0(file.path(c(here()),"data","store",paste0("h.2018.",aoi,".",dset,".tif")))
     #modify paths for use with windows
     if(Sys.info()["sysname"] == "Windows") {
       infile<-gsub('/', '\\\\', infile)
