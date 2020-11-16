@@ -3,3 +3,8 @@
 
 
 
+## Todos
+
+- [ ] Modify gdal commands to run without the ecRutils package 
+- [ ] or modify the ecRutils package
+- [ ] 

@@ -70,8 +70,8 @@ if (nowrun==1){
       writeLines(input_files, con=index)
       
       ##create virtual raster
-      infile<-file.path(c(here()), "data","tmp","lossyear",paste0("h.2018.",dset,".index.txt"))
       outfile<-paste0(file.path(c(here()), "data","tmp","lossyear",paste0("h.2018.",dset,".raster.vrt")))
+      infile<-file.path(c(here()), "data","tmp","lossyear",paste0("h.2018.",dset,".index.txt"))
       #modify paths for use with windows
       if(Sys.info()["sysname"] == "Windows") {
         infile<-gsub('/', '\\\\', infile)
