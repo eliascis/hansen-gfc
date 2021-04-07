@@ -49,12 +49,11 @@ dset = "lossyear"
 if (nowrun==1){
     
       ###hansen version
-      # url<-"https://storage.googleapis.com/earthenginepartners-hansen/GFC-2016-v1.4/"
-      # url<-"https://storage.googleapis.com/earthenginepartners-hansen/GFC-2017-v1.5/"
-      url<-"https://storage.googleapis.com/earthenginepartners-hansen/GFC-2018-v1.6/"
+      # url<-"https://storage.googleapis.com/earthenginepartners-hansen/GFC-2018-v1.6/"
+      url<-"https://storage.googleapis.com/earthenginepartners-hansen/GFC-2019-v1.7/"
     
       ##file list
-      pre<-paste0("Hansen_GFC-2018-v1.6_",dset)
+      pre<-paste0("Hansen_GFC-2019-v1.7_",dset)
       flist<-paste0(pre,"_",dim,".tif")
     
       ##download tile raster
@@ -76,12 +75,12 @@ if (nowrun==1){
         input_files<-gsub('/', '\\\\', input_files)
       }
       #save file paths to .txt
-      index<-file(paste0(file.path("data","tmp","lossyear",paste0("h.2018.",dset,".index.txt"))))
+      index<-file(paste0(file.path("data","tmp","lossyear",paste0("h.2019.",dset,".index.txt"))))
       writeLines(input_files, con=index)
       
       ##create virtual raster
-      infile<-file.path(c(here()), "data","tmp","lossyear",paste0("h.2018.",dset,".index.txt"))
-      outfile<-paste0(file.path(c(here()), "data","tmp","lossyear",paste0("h.2018.",dset,".raster.vrt")))
+      infile<-file.path(c(here()), "data","tmp","lossyear",paste0("h.2019.",dset,".index.txt"))
+      outfile<-paste0(file.path(c(here()), "data","tmp","lossyear",paste0("h.2019.",dset,".raster.vrt")))
       #modify paths for use with windows
       if(Sys.info()["sysname"] == "Windows") {
         infile<-gsub('/', '\\\\', infile)
@@ -93,7 +92,7 @@ if (nowrun==1){
                    r = "nearest")
       
       ##translate virtual raster to compressed TIFF and store in output folder
-      destfile<-paste0(file.path(c(here()),"data","store",paste0("h.2018.",aoi,".",dset,".tif")))
+      destfile<-paste0(file.path(c(here()),"data","store",paste0("h.2019.",aoi,".",dset,".tif")))
       #modify paths for use with windows
       if(Sys.info()["sysname"] == "Windows") {
         infile<-gsub('/', '\\\\', infile)
@@ -126,12 +125,11 @@ dset = "datamask"
 if (nowrun==1){
   
   ###hansen version
-  # url<-"https://storage.googleapis.com/earthenginepartners-hansen/GFC-2016-v1.4/"
-  # url<-"https://storage.googleapis.com/earthenginepartners-hansen/GFC-2017-v1.5/"
-  url<-"https://storage.googleapis.com/earthenginepartners-hansen/GFC-2018-v1.6/"
+  # url<-"https://storage.googleapis.com/earthenginepartners-hansen/GFC-2018-v1.6/"
+  url<-"https://storage.googleapis.com/earthenginepartners-hansen/GFC-2019-v1.7/"
   
   ##file list
-  pre<-paste0("Hansen_GFC-2018-v1.6_",dset)
+  pre<-paste0("Hansen_GFC-2019-v1.7_",dset)
   flist<-paste0(pre,"_",dim,".tif")
   
   ##download tile raster
@@ -153,12 +151,12 @@ if (nowrun==1){
     input_files<-gsub('/', '\\\\', input_files)
   }
   #save file paths to .txt
-  index<-file(paste0(file.path("data","tmp","datamask",paste0("h.2018.",dset,".index.txt"))))
+  index<-file(paste0(file.path("data","tmp","datamask",paste0("h.2019.",dset,".index.txt"))))
   writeLines(input_files, con=index)
   
   ##create virtual raster
-  infile<-file.path(c(here()), "data","tmp","datamask",paste0("h.2018.",dset,".index.txt"))
-  outfile<-paste0(file.path(c(here()), "data","tmp","datamask",paste0("h.2018.",dset,".raster.vrt")))
+  infile<-file.path(c(here()), "data","tmp","datamask",paste0("h.2019.",dset,".index.txt"))
+  outfile<-paste0(file.path(c(here()), "data","tmp","datamask",paste0("h.2019.",dset,".raster.vrt")))
   #modify paths for use with windows
   if(Sys.info()["sysname"] == "Windows") {
     infile<-gsub('/', '\\\\', infile)
@@ -170,7 +168,7 @@ if (nowrun==1){
                r = "nearest")
   
   ##translate virtual raster to compressed TIFF and store in output folder
-  destfile<-paste0(file.path(c(here()),"data","store",paste0("h.2018.",aoi,".",dset,".tif")))
+  destfile<-paste0(file.path(c(here()),"data","store",paste0("h.2019.",aoi,".",dset,".tif")))
   #modify paths for use with windows
   if(Sys.info()["sysname"] == "Windows") {
     infile<-gsub('/', '\\\\', infile)
@@ -203,12 +201,11 @@ dset = "treecover2000"
 if (nowrun==1){
     
     ###hansen version
-    # url<-"https://storage.googleapis.com/earthenginepartners-hansen/GFC-2016-v1.4/"
-    # url<-"https://storage.googleapis.com/earthenginepartners-hansen/GFC-2017-v1.5/"
-    url<-"https://storage.googleapis.com/earthenginepartners-hansen/GFC-2018-v1.6/"
+    # url<-"https://storage.googleapis.com/earthenginepartners-hansen/GFC-2018-v1.6/"
+     url<-"https://storage.googleapis.com/earthenginepartners-hansen/GFC-2019-v1.7/"
     
     ##file list
-    pre<-paste0("Hansen_GFC-2018-v1.6_",dset)
+    pre<-paste0("Hansen_GFC-2019-v1.7_",dset)
     flist<-paste0(pre,"_",dim,".tif")
     
     ##download tile raster
@@ -230,12 +227,12 @@ if (nowrun==1){
       input_files<-gsub('/', '\\\\', input_files)
     }
     #save file paths to .txt
-    index<-file(paste0(file.path("data","tmp","treecover2000",paste0("h.2018.",dset,".index.txt"))))
+    index<-file(paste0(file.path("data","tmp","treecover2000",paste0("h.2019.",dset,".index.txt"))))
     writeLines(input_files, con=index)
     
     ##create virtual raster
-    infile<-file.path(c(here()), "data","tmp","treecover2000",paste0("h.2018.",dset,".index.txt"))
-    outfile<-paste0(file.path(c(here()), "data","tmp","treecover2000",paste0("h.2018.",dset,".raster.vrt")))
+    infile<-file.path(c(here()), "data","tmp","treecover2000",paste0("h.2019.",dset,".index.txt"))
+    outfile<-paste0(file.path(c(here()), "data","tmp","treecover2000",paste0("h.2019.",dset,".raster.vrt")))
     #modify paths for use with windows
     if(Sys.info()["sysname"] == "Windows") {
       infile<-gsub('/', '\\\\', infile)
@@ -247,7 +244,7 @@ if (nowrun==1){
                  r = "nearest")
     
     ##translate virtual raster to compressed TIFF and store in output folder
-    destfile<-paste0(file.path(c(here()),"data","store",paste0("h.2018.",aoi,".",dset,".tif")))
+    destfile<-paste0(file.path(c(here()),"data","store",paste0("h.2019.",aoi,".",dset,".tif")))
     #modify paths for use with windows
     if(Sys.info()["sysname"] == "Windows") {
       infile<-gsub('/', '\\\\', infile)
