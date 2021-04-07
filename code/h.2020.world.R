@@ -1,5 +1,4 @@
 library(here)
-library(ecRutils)
 library(rgdal)
 library(raster)
 library(dplyr)
@@ -14,6 +13,17 @@ north<-c("10N","00N","10S")
 west<-c(
   paste0("0",c(90:90),"E"),
   paste0("",seq(100,140,10),"E")
+)
+x<-expand.grid(north=north,west=west)
+x<-paste0(x[,1],"_",x[,2])
+dim<-c(x)
+
+#southeast asia: 
+aoi<-"seasia"
+north<-c("20N","00N","10S")
+west<-c(
+  paste0("0",c(90:90),"E"),
+  paste0("",seq(100,160,10),"E")
 )
 x<-expand.grid(north=north,west=west)
 x<-paste0(x[,1],"_",x[,2])
@@ -96,14 +106,14 @@ if (nowrun==1){
                        ot = "Byte")
       }
     
-      ##delete temp files
-      file.remove(
-        c(
-          paste0(file.path("data","tmp","lossyear",paste0("h.",flist))),
-          paste0(file.path("data","tmp","lossyear",paste0("h.2018.",dset,".index.txt"))),
-          paste0(file.path("data","tmp","lossyear",paste0("h.2018.",dset,".raster.vrt")))
-        )
-      )
+      # ##delete temp files
+      # file.remove(
+      #   c(
+      #     paste0(file.path("data","tmp","lossyear",paste0("h.",flist))),
+      #     paste0(file.path("data","tmp","lossyear",paste0("h.2018.",dset,".index.txt"))),
+      #     paste0(file.path("data","tmp","lossyear",paste0("h.2018.",dset,".raster.vrt")))
+      #   )
+      # )
 }
 
 
@@ -173,14 +183,14 @@ if (nowrun==1){
                    ot = "Byte")
   }
   
-  ##delete temp files
-  file.remove(
-    c(
-      paste0(file.path("data","tmp","datamask",paste0("h.",flist))),
-      paste0(file.path("data","tmp","datamask",paste0("h.2018.",dset,".index.txt"))),
-      paste0(file.path("data","tmp","datamask",paste0("h.2018.",dset,".raster.vrt")))
-    )
-  )
+  # ##delete temp files
+  # file.remove(
+  #   c(
+  #     paste0(file.path("data","tmp","datamask",paste0("h.",flist))),
+  #     paste0(file.path("data","tmp","datamask",paste0("h.2018.",dset,".index.txt"))),
+  #     paste0(file.path("data","tmp","datamask",paste0("h.2018.",dset,".raster.vrt")))
+  #   )
+  # )
 }
 
 
@@ -250,12 +260,12 @@ if (nowrun==1){
                      ot = "Byte")
     }
     
-    ##delete temp files
-    file.remove(
-      c(
-        paste0(file.path("data","tmp","treecover2000",paste0("h.",flist))),
-        paste0(file.path("data","tmp","treecover2000",paste0("h.2018.",dset,".index.txt"))),
-        paste0(file.path("data","tmp","treecover2000",paste0("h.2018.",dset,".raster.vrt")))
-      )
-    )
+    # ##delete temp files
+    # file.remove(
+    #   c(
+    #     paste0(file.path("data","tmp","treecover2000",paste0("h.",flist))),
+    #     paste0(file.path("data","tmp","treecover2000",paste0("h.2018.",dset,".index.txt"))),
+    #     paste0(file.path("data","tmp","treecover2000",paste0("h.2018.",dset,".raster.vrt")))
+    #   )
+    # )
 }
